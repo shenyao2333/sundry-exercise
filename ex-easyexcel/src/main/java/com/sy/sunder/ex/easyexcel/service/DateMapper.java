@@ -1,6 +1,6 @@
 package com.sy.sunder.ex.easyexcel.service;
 
-import com.sy.sunder.ex.easyexcel.domain.ExeclDataDto;
+import com.sy.sunder.ex.easyexcel.domain.ExcelDataDto;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +13,7 @@ public class DateMapper {
 
 
 
-    public void test(ExeclDataDto dto){
+    public void test(ExcelDataDto dto){
         System.out.println("存储中-->"+dto);
 
     }
