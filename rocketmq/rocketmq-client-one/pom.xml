@@ -22,6 +22,8 @@
             <artifactId>rocketmq-common</artifactId>
             <version>${version}</version>
         </dependency>
+
+
     </dependencies>
 
 
