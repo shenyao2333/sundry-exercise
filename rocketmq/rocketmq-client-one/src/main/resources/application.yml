@@ -4,21 +4,17 @@ spring:
     stream:
       # Binding 配置项，对应 BindingProperties Map
       bindings:
-        erbadagang-output:
-          destination: test-topic # 目的地。这里使用 RocketMQ Topic
-          content-type: application/json # 内容格式。这里使用 JSON
-
-        trek-output:
+        shuchu:
           destination: test-topic # 目的地。这里使用 RocketMQ Topic
           content-type: application/json # 内容格式。这里使用 JSON
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
-        # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
+        # RocketMQ Namesrv 地址
         binder:
-          name-server: 123.57.34.92:9876 # RocketMQ Namesrv 地址
+          name-server: 123.57.34.92:9876
         # RocketMQ 自定义 Binding 配置项，对应 RocketMQBindingProperties Map
         bindings:
-          erbadagang-output:
+          shuru:
             # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
             producer:
               group: test # 生产者分组
