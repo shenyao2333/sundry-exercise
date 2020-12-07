@@ -38,8 +38,19 @@ public class TestController {
         Message<ComMessage> build = MessageBuilder.withPayload(msg)
                 .setHeader(MessageConst.PROPERTY_DELAY_TIME_LEVEL, "10")
                 .build();
-
         streamClient.shuchu().send(build);
+    }
+
+    @GetMapping("/test3")
+    public void asdf3() {
+        long l = SnowFlakeUtil.getFlowIdInstance().nextId();
+
+        ComMessage msg = ComMessage.builder().content("消息").messageId(l).sendTime(new Date()).build();
+
+        Message<ComMessage> build = MessageBuilder.withPayload(msg)
+                .build();
+        boolean send = streamClient.shuchu().send(build);
+        System.out.println(send);
     }
 
 }

@@ -7,6 +7,10 @@ spring:
         shuchu:
           destination: test-topic # 目的地。这里使用 RocketMQ Topic
           content-type: application/json # 内容格式。这里使用 JSON
+        shuru:
+          destination: test-topic # 目的地。这里使用 RocketMQ Topic
+          content-type: application/json # 内容格式。这里使用 JSON
+          group: test-group
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
         # RocketMQ Namesrv 地址
@@ -16,7 +20,7 @@ spring:
         bindings:
           shuru:
             # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
-            producer:
+            consumer:
               group: test # 生产者分组
               sync: true # 是否同步发送消息，默认为 false 异步。
 

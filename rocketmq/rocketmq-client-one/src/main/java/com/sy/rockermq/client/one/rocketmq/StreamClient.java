@@ -2,7 +2,6 @@ package com.sy.rockermq.client.one.rocketmq;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 
@@ -17,6 +16,6 @@ public interface StreamClient {
     SubscribableChannel shuchu();
 
     @Input("shuru")
-    MessageChannel shuru();
+    SubscribableChannel shuru();
 
 }

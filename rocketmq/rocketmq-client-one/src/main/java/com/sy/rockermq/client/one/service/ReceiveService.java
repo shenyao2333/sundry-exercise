@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
  * @description:
  */
 
-//@Component
+@Component
 public class ReceiveService {
 
-    //@StreamListener("shuru")
-    //public void receiveInput(@Payload ComMessage message) {
-    //    System.out.println("input1 receive: " + message);
-    //}
+    @StreamListener("shuru")
+    public void receiveInput(@Payload ComMessage message) {
+        System.out.println("input1 receive: " + message);
+    }
 
 
 
