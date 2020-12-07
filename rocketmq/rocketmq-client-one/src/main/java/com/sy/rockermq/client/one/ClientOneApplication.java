@@ -1,10 +1,10 @@
 package com.sy.rockermq.client.one;
 
+import com.sy.rockermq.client.one.rocketmq.StreamClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.cloud.stream.messaging.Source;
+
 
 /**
  * @Author: shenyao
@@ -12,8 +12,8 @@ import org.springframework.cloud.stream.messaging.Source;
  * @description:
  */
 @SpringBootApplication
-@EnableBinding({ Source.class, Sink.class })
-public class ClientOneApplication {
+@EnableBinding({StreamClient.class })
+class ClientOneApplication {
 
 
     public static void main(String[] args) {

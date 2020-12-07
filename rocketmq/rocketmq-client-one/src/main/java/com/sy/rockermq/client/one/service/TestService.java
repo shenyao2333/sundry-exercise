@@ -20,14 +20,14 @@ import java.util.Map;
 @Service
 public class TestService {
 
-    @Resource
-    private MessageChannel output;
+  // @Resource
+  // private MessageChannel output;
 
-    public void saf(){
-        Map<String, Object> headers = new HashMap<>();
-        headers.put(MessageConst.PROPERTY_TAGS, "tagStr");
-        Message message = MessageBuilder.createMessage("s", new MessageHeaders(headers));
-        output.send(message);
-    }
+  // public void saf(){
+  //     Map<String, Object> headers = new HashMap<>();
+  //     headers.put(MessageConst.PROPERTY_TAGS, "tagStr");
+  //     Message message = MessageBuilder.createMessage("s", new MessageHeaders(headers));
+  //     output.send(message);
+  // }
 
 }

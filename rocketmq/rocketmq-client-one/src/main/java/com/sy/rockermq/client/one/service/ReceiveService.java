@@ -1,6 +1,11 @@
 package com.sy.rockermq.client.one.service;
 
+import com.sy.rockermq.client.one.rocketmq.StreamClient;
+import com.sy.rocketmq.common.domain.ComMessage;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,18 +13,15 @@ import org.springframework.stereotype.Service;
  * @Date: Created by 2020/12/6 22:14
  * @description:
  */
-@Service
+
+//@Component
 public class ReceiveService {
 
-    @StreamListener("input1")
-    public void receiveInput1(String receiveMsg) {
-        System.out.println("input1 receive: " + receiveMsg);
-    }
+    //@StreamListener("shuru")
+    //public void receiveInput(@Payload ComMessage message) {
+    //    System.out.println("input1 receive: " + message);
+    //}
 
-   // @StreamListener("input2")
-   // public void receiveInput2(String receiveMsg) {
-   //     System.out.println("input2 receive: " + receiveMsg);
-   // }
 
 
 }
