@@ -19,7 +19,7 @@ public class ReceiveService {
 
     @StreamListener("shuru")
     public void receiveInput(@Payload ComMessage message) {
-        System.out.println("input1 receive: " + message);
+        System.out.println("收到消息: " + message);
     }
 
 
