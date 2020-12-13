@@ -1,8 +1,10 @@
 package com.sy.rockermq.client.one.controller;
 
-import com.sy.rockermq.client.one.rocketmq.StreamClient;
+import com.sy.rockermq.client.one.rocketmq.AscySendCallback;
 import com.sy.rocketmq.common.domain.ComMessage;
 import com.sy.rocketmq.common.utils.SnowFlakeUtil;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.messaging.Message;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.xml.ws.handler.MessageContext;
 import java.util.Date;
 
 /**
@@ -22,49 +23,32 @@ import java.util.Date;
 @RestController
 public class TestController {
 
-    @Resource
-    private StreamClient streamClient;
 
     @Resource
     private RocketMQTemplate rocketMQTemplate;
 
     @GetMapping("/test")
-    public void sdf(){
-        streamClient.shuchu().send(MessageBuilder.withPayload("测试消息").build());
+    public void sdf() {
+        SendResult orderInfo = rocketMQTemplate.syncSend("xiaoxi", ComMessage.builder().messageId(123L).content("测试消息").build());
+        System.out.println(orderInfo);
     }
 
     @GetMapping("/test2")
     public void asdf() {
-        long l = SnowFlakeUtil.getFlowIdInstance().nextId();
-        ComMessage msg = ComMessage.builder().content("消息").messageId(l).sendTime(new Date()).build();
-        Message<ComMessage> build = MessageBuilder.withPayload(msg)
-                .setHeader(MessageConst.PROPERTY_DELAY_TIME_LEVEL, "10")
-                .build();
-        streamClient.shuchu().send(build);
+        ComMessage msg = ComMessage.builder().content("异步消息").build();
+        rocketMQTemplate.asyncSend("xiaoxi",msg,new AscySendCallback(msg));
     }
 
     @GetMapping("/test3")
     public void asdf3() {
-        long l = SnowFlakeUtil.getFlowIdInstance().nextId();
-        ComMessage msg = ComMessage.builder().content("消息").messageId(l).sendTime(new Date()).build();
-        Message<ComMessage> build = MessageBuilder.withPayload(msg)
-                .build();
-        boolean send = streamClient.shuchu().send(build);
-        System.out.println(send);
+
     }
 
 
     @GetMapping("/test4")
-    public void sadf(){
-        System.out.println("123123");
-        long l = SnowFlakeUtil.getFlowIdInstance().nextId();
-        ComMessage msg = ComMessage.builder().content("同步消息").messageId(l).sendTime(new Date()).build();
-        rocketMQTemplate.syncSend("test-topic",msg);
-        rocketMQTemplate.
+    public void sadf() {
+
     }
-
-
-
 
 
 }
