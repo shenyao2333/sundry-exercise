@@ -19,8 +19,9 @@ public class AscySendCallback implements SendCallback {
 
     @Override
     public void onSuccess(SendResult sendResult) {
-        System.out.println("发送成功: "+ sendResult);
+        System.out.println("发送成功时间为："+System.currentTimeMillis());
         System.out.println("消息内容为: "+  this.comMessage);
+
     }
 
     @Override

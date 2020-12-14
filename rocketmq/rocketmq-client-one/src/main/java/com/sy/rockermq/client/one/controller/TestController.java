@@ -27,28 +27,50 @@ public class TestController {
     @Resource
     private RocketMQTemplate rocketMQTemplate;
 
-    @GetMapping("/test")
-    public void sdf() {
+    /**
+     * 发送同步消息
+     */
+    @GetMapping("/test1")
+    public void test1() {
         SendResult orderInfo = rocketMQTemplate.syncSend("xiaoxi", ComMessage.builder().messageId(123L).content("测试消息").build());
         System.out.println(orderInfo);
     }
 
+
+    /**
+     * 发送异步消息，继承SendCallback接收返回数据
+     */
     @GetMapping("/test2")
-    public void asdf() {
-        ComMessage msg = ComMessage.builder().content("异步消息").build();
+    public void test2() {
+        ComMessage msg = builder("异步消息");
         rocketMQTemplate.asyncSend("xiaoxi",msg,new AscySendCallback(msg));
+        System.out.println("时间为："+System.currentTimeMillis());
     }
 
+    /**
+     * 异步不等待确定
+     */
     @GetMapping("/test3")
-    public void asdf3() {
-
+    public void test3() {
+        rocketMQTemplate.sendOneWay("xiaoxi",builder("异步不等待消息，不关心发送结构"));
     }
 
 
+    /**
+     * 发送顺序消息，第三个参数放key作用是能利用hash计算将同一类的消息推送到同一个broke里
+     */
     @GetMapping("/test4")
-    public void sadf() {
+    public void test4() {
+        rocketMQTemplate.syncSendOrderly("xiaoxi", builder("发送顺时消息"), "1");
+    }
+
+
+    private ComMessage builder(String content){
+        return ComMessage.builder().messageId(System.currentTimeMillis()).content(content).build();
+
 
     }
+
 
 
 }
