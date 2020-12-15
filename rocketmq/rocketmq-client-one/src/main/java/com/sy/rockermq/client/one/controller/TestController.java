@@ -64,11 +64,38 @@ public class TestController {
         rocketMQTemplate.syncSendOrderly("xiaoxi", builder("发送顺时消息"), "1");
     }
 
+    /**
+     * 发送定时消息
+     * 目前只支持这几种级别 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
+     */
+    @GetMapping("/test5")
+    public void test5() {
+        ComMessage msg = builder("发送顺时消息");
+        rocketMQTemplate.syncSend("xiaoxi", MessageBuilder.withPayload(msg).build(),200,4);
+        System.out.println("发送成功"+ System.currentTimeMillis());
+    }
+
+
+    /**
+     * 发送定时消息
+     * 目前只支持这几种级别 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
+     */
+    @GetMapping("/test6")
+    public void test6() {
+        ComMessage msg = builder("发送顺时消息");
+        AscySendCallback ascySendCallback = new AscySendCallback(msg);
+        rocketMQTemplate.asyncSend("xiaoxi", MessageBuilder.withPayload(msg).build(),ascySendCallback,200,4);
+        System.out.println("发送成功"+ System.currentTimeMillis());
+    }
+
+    @GetMapping("/test7")
+    public void test7(){
+        ComMessage msg = builder("发送事务消息");
+        rocketMQTemplate.sendMessageInTransaction("xiaoxi", MessageBuilder.withPayload(msg).build(),"test");
+    }
 
     private ComMessage builder(String content){
         return ComMessage.builder().messageId(System.currentTimeMillis()).content(content).build();
-
-
     }
 
 

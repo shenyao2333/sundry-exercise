@@ -1,4 +1,4 @@
-package com.sy.rocketmq.client.two.listener;
+package com.rocketmq.client.three.listener;
 
 import com.sy.rocketmq.common.domain.ComMessage;
 import org.apache.rocketmq.spring.annotation.MessageModel;
@@ -13,18 +13,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RocketMQMessageListener(topic = "xiaoxi", consumerGroup  = "shenyao",
-        selectorExpression = "*" ,  messageModel = MessageModel.BROADCASTING)
-public class ConsumerReply implements RocketMQListener<ComMessage>  {
-    int i =  12;
+        selectorExpression = "*"  )
+public class ConsumerReply implements RocketMQListener<ComMessage> {
+
 
     @Override
     public void onMessage(ComMessage comMessage) {
-        i++;
-        System.out.println(i);
-        if (i<18){
-            System.out.println("错误了");
-            throw new RuntimeException("234");
-        }
         System.out.println(comMessage);
         System.out.println("xiaoxi:test "+System.currentTimeMillis());
     }
