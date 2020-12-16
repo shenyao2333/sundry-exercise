@@ -5,6 +5,7 @@ import com.sy.rocketmq.common.domain.ComMessage;
 import com.sy.rocketmq.common.utils.SnowFlakeUtil;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.messaging.Message;
@@ -61,7 +62,7 @@ public class TestController {
      */
     @GetMapping("/test4")
     public void test4() {
-        rocketMQTemplate.syncSendOrderly("xiaoxi", builder("发送顺时消息"), "1");
+        SendResult sendResult = rocketMQTemplate.syncSendOrderly("xiaoxi", builder("发送顺时消息"), "1");
     }
 
     /**
@@ -71,7 +72,7 @@ public class TestController {
     @GetMapping("/test5")
     public void test5() {
         ComMessage msg = builder("发送顺时消息");
-        rocketMQTemplate.syncSend("xiaoxi", MessageBuilder.withPayload(msg).build(),200,4);
+        SendResult xiaoxi = rocketMQTemplate.syncSend("xiaoxi", MessageBuilder.withPayload(msg).build(), 200, 4);
         System.out.println("发送成功"+ System.currentTimeMillis());
     }
 
@@ -91,7 +92,8 @@ public class TestController {
     @GetMapping("/test7")
     public void test7(){
         ComMessage msg = builder("发送事务消息");
-        rocketMQTemplate.sendMessageInTransaction("xiaoxi", MessageBuilder.withPayload(msg).build(),"test");
+        TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction("xiaoxi", MessageBuilder.withPayload(msg).build(), "test");
+
     }
 
     private ComMessage builder(String content){
