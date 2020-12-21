@@ -7,6 +7,10 @@ package com.sy.rocketmq.client.two.listener;
  */
 import com.sy.rocketmq.common.domain.ComMessage;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -16,10 +20,12 @@ import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@RocketMQMessageListener(consumerGroup = "shenyao", topic = "testTran")
+@RocketMQMessageListener(consumerGroup = "shenyao", topic = "testTran" ,reconsumeTimes = 4)
 //@RocketMQTransactionListener(maximumPoolSize  = 3 )
-public class TransactionListenerServcie implements RocketMQListener<ComMessage>, RocketMQPushConsumerLifecycleListener {
+public class TransactionListenerServcie implements RocketMQListener<ComMessage> , MessageListenerConcurrently {
 
     int i = 0;
 
@@ -30,11 +36,9 @@ public class TransactionListenerServcie implements RocketMQListener<ComMessage>,
         i++;
     }
 
+
     @Override
-    public void prepareStart(DefaultMQPushConsumer defaultMQPushConsumer) {
-        System.out.println(defaultMQPushConsumer);
-        System.out.println(i);
+    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+        return null;
     }
-
-
 }
