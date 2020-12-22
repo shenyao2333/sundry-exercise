@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RocketMQMessageListener(consumerGroup = "shenyao", topic = "testTran" ,reconsumeTimes = 4)
+@RocketMQMessageListener(consumerGroup = "shenyao", topic = "testTran" )
 //@RocketMQTransactionListener(maximumPoolSize  = 3 )
 public class TransactionListenerServcie implements RocketMQListener<ComMessage> , MessageListenerConcurrently {
 
