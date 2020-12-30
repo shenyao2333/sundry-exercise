@@ -23,6 +23,7 @@
     <modules>
         <module>ex-easyexcel</module>
         <module>rocketmq</module>
+        <module>ex-mycat</module>
     </modules>
 
     <dependencies>
