@@ -24,6 +24,7 @@
         <module>ex-easyexcel</module>
         <module>rocketmq</module>
         <module>ex-mycat</module>
+        <module>ex-sharding-jdbc</module>
     </modules>
 
     <dependencies>
