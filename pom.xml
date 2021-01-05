@@ -25,6 +25,7 @@
         <module>rocketmq</module>
         <module>ex-mycat</module>
         <module>ex-sharding-jdbc</module>
+        <module>ex-grammar</module>
     </modules>
 
     <dependencies>
