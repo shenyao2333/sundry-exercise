@@ -27,6 +27,7 @@
         <module>ex-sharding-jdbc</module>
         <module>ex-grammar</module>
         <module>ex-springboot</module>
+        <module>ex-redission</module>
     </modules>
 
     <dependencies>
