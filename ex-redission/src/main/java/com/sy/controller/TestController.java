@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -26,10 +28,8 @@ public class TestController {
     private ExecutorService executorService;
 
 
-    private static Integer i1 = 10;
-    private static Integer i2 = 10;
-    private static Integer i3 = 10;
-    private static Integer i4 = 10;
+    Integer[] data = new Integer[]{6,5,5,5};
+
 
 
 
@@ -61,18 +61,33 @@ public class TestController {
 
     @GetMapping("/test5")
     public String test5() throws InterruptedException {
-        ArrayList<HashMap<Integer,Integer>> integers = new ArrayList<>();
-        for (int i = 1; i < 11; i++) {
-            HashMap<Integer, Integer> map = new HashMap<>(2);
-            map.put(i,i);
-            integers.add(map);
+        CountDownLatch countDownLatch = new CountDownLatch(21);
+        for (int i = 0; i < 21; i++) {
+            int finalI = i;
+            executorService.execute(()->sds(finalI,countDownLatch));
         }
-        HashMap<Integer, Integer> map = new HashMap<>(2);
-        map.put()
-        Integer num = getNum(1);
-
-
+        countDownLatch.await(200,TimeUnit.SECONDS);
+        System.out.println(Arrays.toString(data));
         return "成功";
+    }
+
+    public void sds(Integer i, CountDownLatch countDownLatch){
+        int suo =  i % 4;
+        RLock lock = redissonClient.getLock("suo" + suo);
+        try {
+            boolean b = lock.tryLock(3, 1000, TimeUnit.SECONDS);
+            if (b){
+                Integer datum = data[suo];
+                Thread.sleep(2200);
+                data[i % 4] =  datum-1;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            countDownLatch.countDown();
+            lock.unlock();
+        }
+
     }
 
 
@@ -91,25 +106,6 @@ public class TestController {
     }
 
 
-    public Integer getNum(int num){
-        try {
-            Integer ds= 0 ;
-            int i =   num%4;
-            if (i==0){
-              return i1;
-            }else if (i==1){
-                return i2;
-            }else if (i==2){
-                return i3;
-            }else if (i==3){
-                return i4;
-            }
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
 
 
