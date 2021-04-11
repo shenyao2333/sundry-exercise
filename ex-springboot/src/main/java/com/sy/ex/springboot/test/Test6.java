@@ -23,7 +23,7 @@ public class Test6 {
 
         int length = array.length;
 
-        new ConcurrentHashMap<>()
+
 
 
     }
