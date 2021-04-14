@@ -1,7 +1,8 @@
-package com.sy.ex.grammar.test;
+package com.sy.ex.springboot.test;
 
 import com.sy.ex.grammar.domain.UserInfo;
-import com.sy.ex.grammar.service.TestStem;
+import com.sy.ex.springboot.service.TestStem;
+
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;

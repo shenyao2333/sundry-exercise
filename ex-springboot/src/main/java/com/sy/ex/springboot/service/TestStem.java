@@ -1,4 +1,4 @@
-package com.sy.ex.grammar.service;
+package com.sy.ex.springboot.service;
 
 import com.sy.ex.grammar.domain.UserInfo;
 
