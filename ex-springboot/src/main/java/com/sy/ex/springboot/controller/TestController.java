@@ -22,9 +22,9 @@ public class TestController {
 
     @GetMapping
     public void test1(){
-        System.out.println();
-        String service = testService.service();
-        System.out.println("调完："+ service);
+        System.out.println("-开始调用方法");
+        String service = testService.service("123");
+        System.out.println("-方法调用结束");
     }
 
 

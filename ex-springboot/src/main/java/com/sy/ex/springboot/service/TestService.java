@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public class TestService {
 
 
-    @OperateLog("开始调用")
-    public String service(){
+    @OperateLog("测试传入值")
+    public String service(String s){
         System.out.println("进来service方法");
-        return "service返回";
+        return "方法返回值";
     }
 
 
