@@ -28,6 +28,7 @@
         <module>ex-grammar</module>
         <module>ex-springboot</module>
         <module>ex-redission</module>
+        <module>ex-camunda</module>
     </modules>
 
     <dependencies>
