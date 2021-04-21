@@ -53,7 +53,7 @@ public class TestController {
     @GetMapping("/test4")
     public String sdf() throws InterruptedException {
         RLock test = redissonClient.getLock("test");
-        boolean res = test.tryLock(3, 10, TimeUnit.SECONDS);
+        boolean res = test.tryLock(3,  TimeUnit.SECONDS);
         System.out.println(res);
         return "成功";
     }
