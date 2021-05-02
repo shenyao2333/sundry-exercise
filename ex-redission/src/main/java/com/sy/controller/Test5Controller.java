@@ -22,7 +22,9 @@ public class Test5Controller {
 
     private final RedissonClient redissonClient;
 
-
+    /**
+     *
+     */
     @GetMapping("/test1")
     public void asdf(){
         RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter("url:sd");
@@ -32,11 +34,13 @@ public class Test5Controller {
         bloomFilter.add("123");
         bloomFilter.add("456");
         bloomFilter.add("789");
+        System.out.println("容器大小："+bloomFilter.getSize());
+        System.out.println("hash函数总数为："+ bloomFilter.getHashIterations());
+        System.out.println("滤器位数组的大小："+bloomFilter.count());
+        System.out.println("容错率为："+bloomFilter.getFalseProbability());
+        System.out.println("返回预计插入数量："+bloomFilter.getExpectedInsertions());
 
-        System.out.println(bloomFilter.contains("123"));
-        System.out.println(bloomFilter.contains("456"));
-        System.out.println(bloomFilter.contains("789"));
-        System.out.println(bloomFilter.contains("6767"));
+
     }
 
 
