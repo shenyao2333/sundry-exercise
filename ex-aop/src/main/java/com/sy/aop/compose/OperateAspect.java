@@ -1,4 +1,4 @@
-package com.sy.ex.springboot.component;
+package com.sy.aop.compose;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,9 +8,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.Arrays;
 
 
@@ -21,12 +19,12 @@ import java.util.Arrays;
  */
 @Component
 @Aspect
-public class  OperateAspect {
+public class OperateAspect {
 
     /**
      * 关联到自定义的注解上
      */
-    @Pointcut(value = "@annotation(com.sy.ex.springboot.component.OperateLog)")
+    @Pointcut("execution(* com.sy.aop.controller..*.*(..))")
     public void access() {
     }
 
@@ -59,13 +57,14 @@ public class  OperateAspect {
     /**
      * 环绕增强，是在before前就会触发
      * @param pjp
-     * @param log
+     * @param
      * @return
      * @throws Throwable
      */
-    @Around("@annotation(log)")
-    public Object around(ProceedingJoinPoint pjp, OperateLog log) throws Throwable {
-        System.out.println("请求的数据为："+log.value());
+    //@Around("execution(com.sy.aop.controller.*)")
+    @Around("execution(* com.sy.aop.controller..*.*(..))")
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        //System.out.println("请求的数据为："+log.value());
         System.out.println("--调用前--");
         Signature signature = pjp.getSignature();
         System.out.println("调用类："+signature.getDeclaringTypeName());

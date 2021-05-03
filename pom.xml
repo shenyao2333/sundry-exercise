@@ -29,6 +29,7 @@
         <module>ex-springboot</module>
         <module>ex-redission</module>
         <module>ex-camunda</module>
+        <module>ex-aop</module>
     </modules>
 
     <dependencies>
