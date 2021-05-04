@@ -1,5 +1,6 @@
 package com.sy.aop.compose;
 
+import com.sy.aop.aspect.OperateLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -61,35 +62,12 @@ public class OperateAspect {
      * @return
      * @throws Throwable
      */
-    //@Around("execution(com.sy.aop.controller.*)")
-    @Around("execution(* com.sy.aop.controller..*.*(..))")
-    public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        //System.out.println("请求的数据为："+log.value());
-        System.out.println("--调用前--");
-        Signature signature = pjp.getSignature();
-        System.out.println("调用类："+signature.getDeclaringTypeName());
-        System.out.println("切入的类型" + pjp.getKind());
-        System.out.println("调用方法名："+signature.getName());
-        Object[] args = pjp.getArgs();
-        for (Object arg : args) {
-            System.out.println("参数值："+arg);
-        }
-
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        String url = request.getRequestURL().toString();
-        System.out.println("url:"+url);
-        //GET 请求其实可以从request里获取出参数
-        //Map<String,String[]> map=request.getParameterMap();
-        for (Object arg : pjp.getArgs()) {
-            System.out.println( "参数值："+arg);
-        }
-        MethodSignature methodSignature = (MethodSignature) signature;
-        // 参数名数组
-        String[] parameterNames = methodSignature.getParameterNames();
-        System.out.println("参数名数组："+Arrays.asList(parameterNames));
-        System.out.println("--调用前结束--");
-        return pjp.proceed();
+    @Around("@annotation(log)")
+    public Object around(ProceedingJoinPoint pjp,OperateLog log) throws Throwable {
+        System.out.println("Around 执行前");
+        Object proceed = pjp.proceed();
+        System.out.println("Around 执行后");
+        return proceed;
     }
 
 
