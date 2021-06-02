@@ -28,7 +28,7 @@ public class CamundaApplication {
 
     @EventListener
     private void processPostDeploy(PostDeployEvent event) {
-        runtimeService.startProcessInstanceByKey("hubStart");
+        runtimeService.startProcessInstanceByKey("loanApproval");
     }
 
 }
