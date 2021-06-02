@@ -127,6 +127,20 @@ public class RedisUtil {
         return redisTemplate.type(key);
     }
 
+    /**
+     * 返回 key 所储存的值的类型
+     *
+     * @param prex
+     * @return
+     */
+    public void deleteByPrex(String prex) {
+        Set<String> keys = redisTemplate.keys(prex);
+        if (CollectionUtils.isEmpty(keys)) {
+            redisTemplate.delete(keys);
+        }
+    }
+
+
 
 
     // ============================String=============================
