@@ -26,9 +26,6 @@ public class CamundaApplication {
         SpringApplication.run(CamundaApplication.class, args);
     }
 
-    @EventListener
-    private void processPostDeploy(PostDeployEvent event) {
-        runtimeService.startProcessInstanceByKey("loanApproval");
-    }
+
 
 }

@@ -5,7 +5,9 @@ camunda.bpm:
     firstName: Demo
   filter:
     create: All tasks
-
+  # camunda控制台上下文
+  webapp:
+    application-path: camunda
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -29,4 +31,5 @@ server:
 logging:
   level:
     com.sy: debug
-    org.springframework: debug
+    org.springframework: info
+    org.camunda: debug
