@@ -8,6 +8,7 @@ camunda.bpm:
   # camunda控制台上下文
   webapp:
     application-path: camunda
+
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -24,7 +25,11 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
-
+  jackson:
+    # 设置json的时候给时区+8个小时
+    time-zone: GMT+8
+    # 设置时间转化格式
+    dateFormat: yyyy-MM-dd HH:mm:ss
 
 server:
   port: 10100
@@ -33,3 +38,4 @@ logging:
     com.sy: debug
     org.springframework: info
     org.camunda: debug
+
