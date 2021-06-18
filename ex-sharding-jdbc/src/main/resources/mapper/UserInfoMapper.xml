@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.ex.sharding.mapper.UserInfoMapper">
+
+
+  <resultMap id="BaseResultMap" type="com.sy.ex.sharding.domain.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="TIMESTAMP" property="userName" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+
+  <select id="getByAge" resultMap="BaseResultMap">
+        select * from user_info where age &gt;= #{age,jdbcType=INTEGER} order by age desc
+   </select>
+
+   <delete id="del">
+      delete from user_info
+  </delete>
+
+
+
+
+
+
+
+</mapper>

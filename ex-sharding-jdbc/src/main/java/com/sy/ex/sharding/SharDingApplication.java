@@ -1,5 +1,6 @@
 package com.sy.ex.sharding;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description:
  */
 @SpringBootApplication
+@MapperScan(basePackages = {"com.sy.ex.sharding.mapper"})
 public class SharDingApplication {
 
     public static void main(String[] args) {

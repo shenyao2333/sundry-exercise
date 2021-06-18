@@ -16,7 +16,7 @@
 
 
     <properties>
-        <sharding-sphere.version>4.0.0-RC1</sharding-sphere.version>
+        <sharding-sphere.version>4.1.1</sharding-sphere.version>
     </properties>
 
 
@@ -65,6 +65,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+
+        <!-- pagehelper 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.12</version>
         </dependency>
 
 

@@ -1,37 +1,48 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   shardingsphere:
     datasource:
-      names: demo,test
-      primary:
+      names: tb0,tb1
+      tb0:
         type: com.zaxxer.hikari.HikariDataSource
-        jdbc-url: jdbc:mysql://47.97.192.128:3306/test?useUnicode=true&characterEncoding=UTF8&serverTimezone=Hongkong
+        jdbc-url: jdbc:mysql://8.136.207.24:3306/sharding1?useUnicode=true&characterEncoding=UTF8&serverTimezone=Hongkong
         username: root
         password: sy1998-+
         max-active: 16
-      secondary:
+        pool-name: tb0HikariCP
+        minimum-idle: 5
+      tb1:
         type: com.zaxxer.hikari.HikariDataSource
-        jdbc-url: jdbc:mysql://47.97.192.128:3306/test?useUnicode=true&characterEncoding=UTF8&serverTimezone=Hongkong
+        jdbc-url: jdbc:mysql://8.136.207.24:3306/sharding2?useUnicode=true&characterEncoding=UTF8&serverTimezone=Hongkong
         username: root
         password: sy1998-+
         max-active: 16
+        pool-name: tb1HikariCP
+        minimum-idle: 5
     sharding:
+      binding-tables: user_info
+      #默认数据源，没有配置分库分表规则的表，会使用默认数据源
+      #default-data-source-name: tb0
+      #default-table-strategy: user_info_1
       tables:
-        pt_call_info:
-          actual-data-nodes: demo.user_info
-          table-strategy:
-            inline:
-              sharding-column: id
-              algorithm-expression: pt_call_info_$->{today}
-          key-generator:
-            column: id
-            type: SNOWFLAKE
-        pre_cc_project:
-          actual-data-nodes: ${db.two}.pre_cc_project
-        pre_cc_biztrack:
-          actual-data-nodes: ${db.two}.pre_cc_biztrack
-
-
-
+        #逻辑表名
+         logicTable: user_info
+         actual-data-nodes: tb$->{0..1}.user_info_$->{0..3}
+          #主键生成策略, SNOWFLAKE和 UUID 默认为 SNOWFLAKE
+         key-generator:
+           column: id
+           type: SNOWFLAKE
+          #分库规则
+         database-trategy:
+            hint:
+              shardingColumn: age
+              algorithm-expression: tb$->{age % 2}
+          #分表规则
+         table-strategy:
+            hint:
+              shardingColumn: age
+              algorithm-expression: user_info_$->{age % 3}
 # MyBatis Plus
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
@@ -40,9 +51,6 @@ mybatis-plus:
     # 不显示banner
     banner: false
     # 数据库相关配置
-    db-config:
-      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
-      id-type: AUTO
   configuration:
     call-setters-on-nulls: true
 
@@ -51,3 +59,13 @@ logging:
     com.sy: debug
     org.springframework: info
     org.spring.springboot.dao: debug
+    org.apache.shardingsphere: debug
+server:
+  port: 7878
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
