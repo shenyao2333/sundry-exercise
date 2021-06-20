@@ -22,25 +22,18 @@ spring:
         minimum-idle: 5
     sharding:
       binding-tables: user_info
-      #默认数据源，没有配置分库分表规则的表，会使用默认数据源
-      #default-data-source-name: tb0
-      #default-table-strategy: user_info_1
       tables:
+        #绑定表
         #逻辑表名
-         logicTable: user_info
-         actual-data-nodes: tb$->{0..1}.user_info_$->{0..3}
+        user_info:
+          actual-data-nodes: tb$->{0..1}.user_info_$->{0..3}
           #主键生成策略, SNOWFLAKE和 UUID 默认为 SNOWFLAKE
-         key-generator:
-           column: id
-           type: SNOWFLAKE
-          #分库规则
-         database-trategy:
-            hint:
-              shardingColumn: age
-              algorithm-expression: tb$->{age % 2}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
           #分表规则
-         table-strategy:
-            hint:
+          table-strategy:
+            inline:
               shardingColumn: age
               algorithm-expression: user_info_$->{age % 3}
 # MyBatis Plus

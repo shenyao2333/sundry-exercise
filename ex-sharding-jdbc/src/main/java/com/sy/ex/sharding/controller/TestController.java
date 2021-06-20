@@ -5,8 +5,8 @@ import com.sy.ex.sharding.domain.UserInfo;
 import com.sy.ex.sharding.mapper.UserInfoMapper;
 import com.sy.ex.sharding.service.UserInfoService;
 import lombok.AllArgsConstructor;
-import org.apache.shardingsphere.api.hint.HintManager;
-import org.apache.shardingsphere.api.sharding.hint.HintShardingValue;
+//import org.apache.shardingsphere.api.hint.HintManager;
+//import org.apache.shardingsphere.api.sharding.hint.HintShardingValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,12 +53,12 @@ public class TestController {
 
     @PostMapping("add2")
     public void add2(@RequestBody UserInfo userInfo){
-        HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-        hintManager.addDatabaseShardingValue("tb0", 0);
-        hintManager.addDatabaseShardingValue("tb1", 1);
-        hintManager.addTableShardingValue("user_info", 0);
-        userInfoService.save(userInfo);
+       // HintManager.clear();
+       // HintManager hintManager = HintManager.getInstance();
+       // hintManager.addDatabaseShardingValue("tb0", 0);
+       // hintManager.addDatabaseShardingValue("tb1", 1);
+       // hintManager.addTableShardingValue("user_info", 0);
+       // userInfoService.save(userInfo);
     }
 
 }
