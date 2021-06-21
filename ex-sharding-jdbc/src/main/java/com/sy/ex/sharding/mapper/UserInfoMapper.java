@@ -18,4 +18,7 @@ public interface UserInfoMapper  extends BaseMapper<UserInfo> {
 
     void del();
 
+
+    List<Object> getByAll(UserInfo user);
+
 }

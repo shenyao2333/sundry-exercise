@@ -1,35 +1,13 @@
-# MyBatis Plus
-mybatis-plus:
-  mapper-locations: classpath*:mapper/**/*.xml
-  typeAliasesPackage: com.sy.ex.sharding.domain
-  global-config:
-    # 不显示banner
-    banner: false
-    # 数据库相关配置
-  configuration:
-    call-setters-on-nulls: true
-
-logging:
-  level:
-    com.sy: debug
-    org.springframework: info
-    org.spring.springboot.dao: debug
-    org.apache.shardingsphere: debug
-server:
-  port: 7878
-
-# PageHelper分页插件
-pagehelper:
-  helperDialect: mysql
-  reasonable: false
-  supportMethodsArguments: true
-  params: count=countSql
-
-
 spring:
   main:
     allow-bean-definition-overriding: true
   shardingsphere:
+    # 范围查询允许全库全表查询
+    props:
+      sql:
+        # 显示sql，默认为false
+        show: false
+      allow.range.query.with.inline.sharding: true
     datasource:
       names: tb0,tb1
       tb0:
@@ -61,11 +39,12 @@ spring:
             type: SNOWFLAKE
           #分表规则
           table-strategy:
-            hint:
-              algorithmClassName: com.sy.ex.sharding.config.HintTableAlgorithm
+            standard:
+              shardingColumn: phone
+              preciseAlgorithmClassName: com.sy.ex.sharding.config.StandardTableShardingAlgorithm
+              rangeAlgorithmClassName: com.sy.ex.sharding.config.StandardTableShardingAlgorithm
           databaseStrategy:
-            hint:
-              algorithmClassName: com.sy.ex.sharding.config.HintDataAlgorithm
-
-
-
+            standard:
+              shardingColumn: age
+              preciseAlgorithmClassName: com.sy.ex.sharding.config.StandardDataShardingAlgorithm
+              rangeAlgorithmClassName: com.sy.ex.sharding.config.StandardDataShardingAlgorithm
