@@ -14,14 +14,13 @@ import java.util.List;
  * @description:
  */
 @Component
-public class HintDataAlgorithm implements HintShardingAlgorithm {
+public class HintDataAlgorithm implements  HintShardingAlgorithm {
 
 
     @Override
     public Collection<String> doSharding(Collection collection, HintShardingValue hintShardingValue) {
         List<String> shardingResult = new ArrayList<>();
-        System.out.println(" 选库条件： "+ hintShardingValue);
-        Collection values = hintShardingValue.getValues();
+        Collection<String> values = hintShardingValue.getValues();
         for (Object value : values) {
             for (Object value2 : collection) {
                 if (value2.toString().endsWith(value.toString())){
@@ -31,4 +30,6 @@ public class HintDataAlgorithm implements HintShardingAlgorithm {
         }
         return shardingResult;
     }
+
+
 }
