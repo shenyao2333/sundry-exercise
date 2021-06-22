@@ -26,46 +26,7 @@ pagehelper:
   params: count=countSql
 
 
-spring:
-  main:
-    allow-bean-definition-overriding: true
-  shardingsphere:
-    datasource:
-      names: tb0,tb1
-      tb0:
-        type: com.zaxxer.hikari.HikariDataSource
-        jdbc-url: jdbc:mysql://8.136.207.24:3306/sharding1?useUnicode=true&characterEncoding=UTF8&serverTimezone=Hongkong
-        username: root
-        password: sy1998-+
-        max-active: 16
-        pool-name: tb0HikariCP
-        minimum-idle: 5
-      tb1:
-        type: com.zaxxer.hikari.HikariDataSource
-        jdbc-url: jdbc:mysql://8.136.207.24:3306/sharding2?useUnicode=true&characterEncoding=UTF8&serverTimezone=Hongkong
-        username: root
-        password: sy1998-+
-        max-active: 16
-        pool-name: tb1HikariCP
-        minimum-idle: 5
-    sharding:
-      binding-tables: user_info
-      tables:
-        #绑定表
-        #逻辑表名
-        user_info:
-          actual-data-nodes: tb$->{0..1}.user_info_$->{0..3}
-          #主键生成策略, SNOWFLAKE和 UUID 默认为 SNOWFLAKE
-          key-generator:
-            column: id
-            type: SNOWFLAKE
-          #分表规则
-          table-strategy:
-            hint:
-              algorithmClassName: com.sy.ex.sharding.config.HintTableAlgorithm
-          databaseStrategy:
-            hint:
-              algorithmClassName: com.sy.ex.sharding.config.HintDataAlgorithm
+
 
 
 
