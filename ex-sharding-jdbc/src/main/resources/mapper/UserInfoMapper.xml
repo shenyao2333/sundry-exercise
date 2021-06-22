@@ -35,9 +35,13 @@
 
   </select>
 
+ <insert id="addTest">
+    insert test(id,test_name) value (null,'test1');
+</insert>
 
-
-
+ <select id="getTest" resultType="java.util.Map" >
+    select id, test_name  from test;
+</select>
 
 
 

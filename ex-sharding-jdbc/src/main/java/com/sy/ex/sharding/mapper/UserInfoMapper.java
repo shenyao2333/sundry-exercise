@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sy.ex.sharding.domain.UserInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: sy
@@ -20,5 +21,9 @@ public interface UserInfoMapper  extends BaseMapper<UserInfo> {
 
 
     List<Object> getByAll(UserInfo user);
+
+    void addTest();
+
+    List<Map> getTest();
 
 }
