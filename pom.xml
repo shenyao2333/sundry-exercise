@@ -30,6 +30,7 @@
         <module>ex-redission</module>
         <module>ex-camunda</module>
         <module>ex-aop</module>
+        <module>ex-kafka</module>
     </modules>
 
     <dependencies>
