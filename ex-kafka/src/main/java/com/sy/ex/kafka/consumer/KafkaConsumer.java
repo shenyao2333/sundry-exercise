@@ -29,7 +29,6 @@ public class KafkaConsumer {
     @KafkaListener(topics = "testTopic2", groupId = "testGroup2")
     public void testTopic2(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         System.out.println("testGroup2  ,  top: ->"+topic);
-
         System.out.println(record.value());
         ack.acknowledge();
 

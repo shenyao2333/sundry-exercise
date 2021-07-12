@@ -18,8 +18,8 @@ public class TestController {
     private final KafkaProducer kafkaProducer;
 
     @GetMapping("/test")
-    public void test(String msg){
-        kafkaProducer.send(msg);
+    public void test(String msg,String topic){
+        kafkaProducer.send(msg,topic);
     }
 
 

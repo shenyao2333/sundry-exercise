@@ -23,18 +23,17 @@ public class KafkaProducer {
     private KafkaTemplate<String, Object> kafkaTemplate;
 
 
-    public void send(Object obj) {
+    public void send(Object obj,String topic) {
         String obj2String = JSONObject.toJSONString(obj);
-        log.info("准备发送消息为：{}", obj2String);
+        log.info("准备发送消息为：{}， topic：{}", obj2String,topic);
         //发送消息
-        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send("testTopic2", obj);
+        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, obj);
         future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override
             public void onFailure(Throwable throwable) {
                 //发送失败的处理
                 log.info(  " - 生产者 发送消息失败：" + throwable.getMessage());
             }
-
             @Override
             public void onSuccess(SendResult<String, Object> stringObjectSendResult) {
                 //成功的处理
