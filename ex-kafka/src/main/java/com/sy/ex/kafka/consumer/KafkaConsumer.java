@@ -8,7 +8,6 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 
 /**
  * @Author: sy
@@ -19,20 +18,15 @@ import java.util.Optional;
 @Component
 public class KafkaConsumer {
 
-
+    /**
+     *
+     * topics 可配置多个 topic
+     */
     @KafkaListener(topics = "testTopic", groupId = "testGroup")
     public void testTopic(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         System.out.println("testGroup  ,  top: ->"+topic);
         System.out.println(record.value());
-    }
-
-    @KafkaListener(topics = "testTopic2", groupId = "testGroup2")
-    public void testTopic2(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
-        System.out.println("testGroup2  ,  top: ->"+topic);
-        System.out.println(record.value());
         ack.acknowledge();
-
     }
-
 
 }

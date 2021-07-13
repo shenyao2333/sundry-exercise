@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: 101.200.155.94:9092
+    bootstrap-servers: 101.200.155.94:9092,8.136.207.24:9092
     producer:
       # 发生错误后，消息重发的次数。
       retries: 1
@@ -29,6 +29,8 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       # 值的反序列化方式
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # 批量一次最大拉取数据量
+      max-poll-records: 10
     listener:
       # 在侦听器容器中运行的线程数。
       concurrency: 5
