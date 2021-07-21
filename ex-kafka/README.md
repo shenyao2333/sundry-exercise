@@ -52,9 +52,62 @@ Kafka 流处理不仅仅用来读写和存储流式数据，它最终的目的�
 
 
 
+### 二、安装
+
+#### 2.1、下载地址
+
+```http
+http://kafka.apache.org/downloads
+```
+
+#### 2.3、修改的配置
+
+```properties
+#broker实例标识，集群时要保证唯一
+broker.id=1
+
+# kafka存放数据的目录
+log.dirs=./data/kafka-logs
+
+# 注册中心zookeeper的地址
+zookeeper.connect=localhost:2181
+
+# 监听ip，需要保证消费者能访问
+listeners=PLAINTEXT://172.17.15.243:9092
 
 
-### 二、SpringBoot集成使用
+```
+
+
+
+
+
+
+
+
+
+
+
+```
+kafka启动命令
+./bin/kafka-server-start.sh config/server.properties
+# 后台启动
+./bin/kafka-server-start.sh -daemon config/server.properties
+
+
+zookeeper启动
+./bin/zookeeper-server-start.sh config/zookeeper.properties
+# 后台启动
+./bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+```
+
+
+
+
+
+
+
+### 三、SpringBoot集成使用
 
 
 
