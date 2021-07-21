@@ -31,6 +31,7 @@
         <module>ex-camunda</module>
         <module>ex-aop</module>
         <module>ex-kafka</module>
+        <module>ex-hbase</module>
     </modules>
 
     <dependencies>
