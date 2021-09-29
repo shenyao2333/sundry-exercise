@@ -60,7 +60,7 @@ Kafka 流处理不仅仅用来读写和存储流式数据，它最终的目的�
 http://kafka.apache.org/downloads
 ```
 
-#### 2.3、修改的配置
+#### 2.2、修改的配置
 
 ```properties
 #broker实例标识，集群时要保证唯一
@@ -72,33 +72,50 @@ log.dirs=./data/kafka-logs
 # 注册中心zookeeper的地址
 zookeeper.connect=localhost:2181
 
-# 监听ip，需要保证消费者能访问
-listeners=PLAINTEXT://172.17.15.243:9092
+# 访问IP，需要保证服务能够通信
+advertised.listeners=PLAINTEXT://101.200.155.94:9092
 
+##超时将被删除，也就是说7天之前的数据将被清理掉。
+log.retention.hours=168
 
+# 是否允许自动创建topic ，若是false，就需要通过命令创建topic
+delete.topic.enable=true
 ```
 
 
 
+#### 2.3、命令
 
 
 
-
-
-
-
-
-```
-kafka启动命令
+```shell
+##kafka启动命令
 ./bin/kafka-server-start.sh config/server.properties
 # 后台启动
 ./bin/kafka-server-start.sh -daemon config/server.properties
 
 
-zookeeper启动
+
+##zookeeper启动
 ./bin/zookeeper-server-start.sh config/zookeeper.properties
 # 后台启动
 ./bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+
+## topic列表查询
+bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+
+
+# 查询集群描述
+bin/kafka-topics.sh --describe --zookeeper 127.0.0.1:2181
+
+## topic列表查询
+bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+
+
+## 创建一个名为test0 的 topic
+bin/kafka-topics.sh --create --topic test0 --zookeeper 127.0.0.1:2181 --config max.message.bytes=12800000 --config flush.messages=1 --partitions 5 --replication-factor 1
+
+
 ```
 
 
@@ -109,7 +126,152 @@ zookeeper启动
 
 ### 三、SpringBoot集成使用
 
+#### 3.1、maven
 
+```
+ <dependency>
+     <groupId>org.springframework.kafka</groupId>
+     <artifactId>spring-kafka</artifactId>
+ </dependency>
+```
+
+
+
+#### 3.2、配置文件
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: 101.200.155.94:9092,8.136.207.24:9092
+    producer:
+      # 发生错误后，消息重发的次数。
+      retries: 1
+      #当有多个消息需要被发送到同一个分区时，生产者会把它们放在同一个批次里。该参数指定了一个批次可以使用的内存大小，按照字节数计算。
+      batch-size: 16384
+      # 设置生产者内存缓冲区的大小。
+      buffer-memory: 33554432
+      # 键的序列化方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 值的序列化方式
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # acks=0 ： 生产者在成功写入消息之前不会等待任何来自服务器的响应。
+      # acks=1 ： 只要集群的首领节点收到消息，生产者就会收到一个来自服务器成功响应。
+      # acks=all ：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。
+      acks: 1
+    consumer:
+      # 自动提交的时间间隔 在spring boot 2.X 版本中这里采用的是值的类型为Duration 需要符合特定的格式，如1S,1M,2H,5D
+      auto-commit-interval: 1S
+      # 该属性指定了消费者在读取一个没有偏移量的分区或者偏移量无效的情况下该作何处理：
+      # latest（默认值）在偏移量无效的情况下，消费者将从最新的记录开始读取数据（在消费者启动之后生成的记录）
+      # earliest ：在偏移量无效的情况下，消费者将从起始位置读取分区的记录
+      auto-offset-reset: earliest
+      # 是否自动提交偏移量，默认值是true,为了避免出现重复数据和数据丢失，可以把它设置为false,然后手动提交偏移量
+      enable-auto-commit: false
+      # 键的反序列化方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # 值的反序列化方式
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # 批量一次最大拉取数据量
+      max-poll-records: 10
+    listener:
+      # 在侦听器容器中运行的线程数。
+      concurrency: 5
+      #listner负责ack，每调用一次，就立即commit
+      ack-mode: manual_immediate
+      missing-topics-fatal: false
+
+```
+
+
+
+
+
+#### 3.3、初始化topic
+
+> fafka可以自动创建，但是默认分区和副本都是为1
+
+```java
+package com.sy.ex.kafka.config;
+
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+/**
+ * @Author: sy
+ * @Date: Created by 2021/7/13 10:22
+ * @description:
+ */
+@Component
+public class KafkaInitialConfiguration {
+    
+    /**
+     *  修改分区数并不会导致数据的丢失，但是分区数只能增大不能减小
+     *  创建一个分区为3，两个副本为2的topic， 副本的数量不能超过broker的数量，否则创建主题时会失败。
+     * @return topic
+     */
+    @Bean
+    public NewTopic updateTopic() {
+        return new NewTopic("testTopic",3, (short) 1);
+    }
+
+}
+
+```
+
+
+
+#### 3.4、消费
+
+```java
+package com.sy.ex.kafka.consumer;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.stereotype.Component;
+
+
+/**
+ * @Author: sy
+ * @Date: Created by 2021/7/9 15:34
+ * @description:
+ */
+@Slf4j
+@Component
+public class KafkaConsumer {
+
+    /**
+     *
+     * topics 可配置多个 topic
+     */
+    @KafkaListener(topics = "testTopic", groupId = "testGroup")
+    public void testTopic(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+        System.out.println("testGroup  ,  top: ->"+topic);
+        System.out.println(record.value());
+        ack.acknowledge();
+    }
+    
+}
+
+```
+
+
+
+
+
+#### 3.5、其他
+
+> kafka主要的两套接口，kafkaProducer为消息处理。adminClient主要为topic的管理
+
+```java
+ 
+ private final KafkaProducer kafkaProducer;
+ private final AdminClient adminClient;
+```
 
 
 

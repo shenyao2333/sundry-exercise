@@ -1,14 +1,14 @@
-package com.sy.ex.hbase.service;
+package com.sy.ex.hbase.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.hadoop.conf.Configuration;
+
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -18,25 +18,29 @@ import java.util.Map;
 
 /**
  * @Author: sy
- * @Date: Created by 2021/7/22 0022 21:39
+ * @Date: Created by 2021/9/29 17:42
  * @description:
  */
-@Slf4j
-@Service
 public class HBaseService {
-
+    private Logger log = LoggerFactory.getLogger(HBaseService.class);
     /**
      * 管理员可以做表以及数据的增删改查功能
      */
-
-    @Resource
-    private Connection connection;
-
-
+    private Admin admin = null;
+    private Connection connection = null;
+    public HBaseService(Configuration conf) {
+        try {
+            connection = ConnectionFactory.createConnection(conf);
+            admin = connection.getAdmin();
+        } catch (IOException e) {
+            log.error("获取HBase连接失败!");
+            e.printStackTrace();
+        }
+    }
     /**
      * 创建表 create <table>, {NAME => <column family>, VERSIONS => <VERSIONS>}
      */
-    public boolean creatTable(String tableName, List<String> columnFamily) throws IOException {
+    public boolean creatTable(String tableName, List<String> columnFamily) {
         try {
             //列族column family
             List<ColumnFamilyDescriptor> cfDesc = new ArrayList<>(columnFamily.size());
@@ -48,34 +52,34 @@ public class HBaseService {
             TableDescriptor tableDesc = TableDescriptorBuilder
                     .newBuilder(TableName.valueOf(tableName))
                     .setColumnFamilies(cfDesc).build();
-            if (connection.getAdmin().tableExists(TableName.valueOf(tableName))) {
+            if (admin.tableExists(TableName.valueOf(tableName))) {
                 log.debug("table Exists!");
             } else {
-                connection.getAdmin().createTable(tableDesc);
+                admin.createTable(tableDesc);
                 log.debug("create table Success!");
             }
         } catch (IOException e) {
             log.error(MessageFormat.format("创建表{0}失败", tableName), e);
             return false;
         } finally {
-            close(connection.getAdmin(), null, null);
+            close(admin, null, null);
         }
         return true;
     }
     /**
      * 查询所有表的表名
      */
-    public List<String> getAllTableNames() throws IOException {
+    public List<String> getAllTableNames() {
         List<String> result = new ArrayList<>();
         try {
-            TableName[] tableNames = connection.getAdmin().listTableNames();
+            TableName[] tableNames = admin.listTableNames();
             for (TableName tableName : tableNames) {
                 result.add(tableName.getNameAsString());
             }
         } catch (IOException e) {
             log.error("获取所有表的表名失败", e);
         } finally {
-            close(connection.getAdmin(), null, null);
+            close(admin, null, null);
         }
         return result;
     }
@@ -182,6 +186,7 @@ public class HBaseService {
                 rs.close();
             }
             if (table != null) {
+                assert rs != null;
                 rs.close();
             }
             if (table != null) {
@@ -193,6 +198,5 @@ public class HBaseService {
             }
         }
     }
-
 
 }

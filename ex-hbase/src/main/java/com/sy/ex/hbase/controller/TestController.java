@@ -1,18 +1,14 @@
 package com.sy.ex.hbase.controller;
 
-import com.sy.ex.hbase.service.HBaseService;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Table;
-import org.apache.hadoop.hbase.util.Bytes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSONObject;
+import com.sy.ex.hbase.config.HBaseService;
+import com.sy.ex.hbase.domain.UserInfo;
+import com.sy.ex.hbase.dto.UserDto;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: sy
@@ -21,18 +17,56 @@ import java.util.ArrayList;
  */
 @RestController
 @RequestMapping
+@AllArgsConstructor
 public class TestController {
-    /**
-     * 内部已实现线程安全的连接池
-     */
-    @Resource
-    private Connection hbaseConnection;
-    private HBaseService hBaseService;
 
-    @GetMapping("/test")
-    public void aaaa() throws IOException {
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("lie1");
-        hBaseService.creatTable("test22",strings);
+    private final UserDto userDto;
+
+    private final HBaseService hbaseService;
+    //测试创建表
+
+
+    @GetMapping("/testCreateTable")
+    public void testCreateTable() {
+        hbaseService.creatTable("test_base", Arrays.asList("a", "back"));
     }
+
+
+
+    @GetMapping("/queryAll")
+    public  List<UserInfo> queryAll(){
+        return userDto.queryAll();
+    }
+
+
+    @GetMapping("/save")
+    public void save(UserInfo userInfo){
+        userDto.save(userInfo);
+    }
+
+
+    @GetMapping("/getByParam")
+    public List<UserInfo> getByParam(UserInfo userInfo){
+       return userDto.getByParam(userInfo);
+    }
+
+    @GetMapping("/deleteByName")
+    public void deleteByName(String name){
+        userDto.deleteByName(name);
+    }
+
+
+    @GetMapping("/createTable")
+    public void createTable(){
+        userDto.createTable();
+    }
+
+
+    @PostMapping("/executeSql")
+    public Object executeSql(@RequestBody JSONObject json){
+      return userDto.executeSql((String) json.get("sql"));
+    }
+
+
+
 }
