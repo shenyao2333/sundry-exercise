@@ -2,7 +2,7 @@ spring:
   datasource:
     #zookeeper 地址
     url: jdbc:phoenix:101.200.155.94:2181
-    driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     # 如果不想配置对数据库连接池做特殊配置的话,以下关于连接池的配置就不是必须的
     type: com.zaxxer.hikari.HikariDataSource
     hikari:

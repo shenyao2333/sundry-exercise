@@ -28,6 +28,8 @@ public class HBaseService {
      */
     private Admin admin = null;
     private Connection connection = null;
+
+
     public HBaseService(Configuration conf) {
         try {
             connection = ConnectionFactory.createConnection(conf);
@@ -52,12 +54,13 @@ public class HBaseService {
             TableDescriptor tableDesc = TableDescriptorBuilder
                     .newBuilder(TableName.valueOf(tableName))
                     .setColumnFamilies(cfDesc).build();
-            if (admin.tableExists(TableName.valueOf(tableName))) {
-                log.debug("table Exists!");
-            } else {
-                admin.createTable(tableDesc);
-                log.debug("create table Success!");
-            }
+            admin.createTable(tableDesc);
+            //if (admin.tableExists(TableName.valueOf(tableName))) {
+            //    log.debug("table Exists!");
+            //} else {
+            //    admin.createTable(tableDesc);
+            //    log.debug("create table Success!");
+            //}
         } catch (IOException e) {
             log.error(MessageFormat.format("创建表{0}失败", tableName), e);
             return false;
