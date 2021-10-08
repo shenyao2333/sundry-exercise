@@ -1,7 +1,6 @@
 package com.sy.ex.hbase.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sy.ex.hbase.config.HBaseService;
 import com.sy.ex.hbase.domain.UserInfo;
 import com.sy.ex.hbase.dto.UserDto;
 import lombok.AllArgsConstructor;
@@ -21,15 +20,6 @@ import java.util.List;
 public class TestController {
 
     private final UserDto userDto;
-
-    private final HBaseService hbaseService;
-    //测试创建表
-
-
-    @GetMapping("/testCreateTable")
-    public void testCreateTable() {
-        hbaseService.creatTable("test_base", Arrays.asList("a", "back"));
-    }
 
 
 
@@ -65,6 +55,12 @@ public class TestController {
     @PostMapping("/executeSql")
     public Object executeSql(@RequestBody JSONObject json){
       return userDto.executeSql((String) json.get("sql"));
+    }
+
+
+    @GetMapping("/test")
+    public Object test(){
+       return "成功";
     }
 
 
