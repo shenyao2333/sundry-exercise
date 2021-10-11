@@ -21,6 +21,16 @@
     #{age,jdbcType=INTEGER},#{sex,jdbcType=VARCHAR})
   </select>
 
+  <update id="saveList" >
+    UPSERT INTO user_info(user_id , name ,phone,age, sex)
+     VALUES
+    <foreach collection="userInfos" item="item" separator="," >
+     ( #{item.userId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR},
+      #{item.phone,jdbcType=VARCHAR}, #{item.age,jdbcType=INTEGER},
+      #{item.sex,jdbcType=VARCHAR})
+    </foreach>
+  </update>
+
   <select id="getByParam" resultMap="BaseResultMap">
     select user_id, name,age,phone,sex
     from user_info
@@ -32,7 +42,7 @@
         and sex = #{sex,jdbcType=VARCHAR}
       </if>
       <if test="name != null and name != ''">
-        and name  like concat('%', #{name,jdbcType=VARCHAR}  , '%')
+        and name  like  #{name,jdbcType=VARCHAR}
       </if>
       <if test="age != null and age != ''">
         and age  = #{age,jdbcType=INTEGER}
@@ -57,7 +67,7 @@
     )
  </update>
 
- <select id="executeSql" resultType="java.lang.Object">
+ <select id="executeSql" resultMap="BaseResultMap">
     ${sql}
  </select>
 

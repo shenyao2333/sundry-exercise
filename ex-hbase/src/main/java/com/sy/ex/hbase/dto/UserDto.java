@@ -19,11 +19,13 @@ public interface UserDto {
 
     void save(UserInfo userInfo);
 
+    void saveList(@Param("userInfos") List<UserInfo> userInfos);
+
     List<UserInfo> getByParam(UserInfo userInfo);
 
     void deleteByName(String name);
 
     void createTable();
 
-    Object executeSql(@Param("sql") String sql);
+    List<UserInfo> executeSql(@Param("sql") String sql);
 }
