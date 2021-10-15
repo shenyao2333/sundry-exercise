@@ -2,13 +2,11 @@ package com.sy.ex.hbase.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.ex.hbase.domain.UserInfo;
-import com.sy.ex.hbase.dto.UserDto;
+import com.sy.ex.hbase.hbasedto.UserDto;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;

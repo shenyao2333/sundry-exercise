@@ -22,7 +22,7 @@ public class KafkaConsumer {
      *
      * topics 可配置多个 topic
      */
-    @KafkaListener(topics = "testTopic", groupId = "testGroup")
+    @KafkaListener(topics = "point_topic", groupId = "testGroup")
     public void testTopic(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         System.out.println("testGroup  ,  top: ->"+topic);
         System.out.println(record.value());

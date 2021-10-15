@@ -1,4 +1,4 @@
-package com.sy.ex.hbase.dto;
+package com.sy.ex.hbase.hbasedto;
 
 import com.sy.ex.hbase.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;

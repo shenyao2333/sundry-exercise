@@ -1,27 +1,33 @@
 spring:
   datasource:
-    #zookeeper 地址
-    url: jdbc:phoenix:101.200.155.94:2181
-    driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
-    # 如果不想配置对数据库连接池做特殊配置的话,以下关于连接池的配置就不是必须的
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      # 池中维护的最小空闲连接数
-      minimum-idle: 10
-      # 池中最大连接数，包括闲置和使用中的连接
-      maximum-pool-size: 20
-      # 此属性控制从池返回的连接的默认自动提交行为。默认为 true
-      auto-commit: true
-      # 允许最长空闲时间
-      idle-timeout: 30000
-      # 此属性表示连接池的用户定义名称，主要显示在日志记录和 JMX 管理控制台中，以标识池和池配置。 默认值：自动生成
-      pool-name: custom-hikari
-      #此属性控制池中连接的最长生命周期，值 0 表示无限生命周期，默认 1800000 即 30 分钟
-      max-lifetime: 1800000
-      # 数据库连接超时时间,默认 30 秒，即 30000
-      connection-timeout: 30000
-      # 连接测试 sql 这个地方需要根据数据库方言差异而配置 例如 oracle 就应该写成  select 1 from dual
-      connection-test-query: SELECT 1
+    # 默认数据源
+    defaultSource: mysql
+    dataSource:
+      mysql:
+         #zookeeper 地址
+         url: jdbc:mysql://123.56.97.130:3306/whale?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+         driver-class-name: com.mysql.cj.jdbc.Driver
+         # 如果不想配置对数据库连接池做特殊配置的话,以下关于连接池的配置就不是必须的
+         type: com.zaxxer.hikari.HikariDataSource
+         username: root
+         password: sy91aa
+
+         # 池中维护的最小空闲连接数
+         minimum-idle: 10
+         # 池中最大连接数，包括闲置和使用中的连接
+         maximum-pool-size: 20
+         idle-timeout: 30000
+         pool-name: mysql-hikari
+      phoenix:
+        #zookeeper 地址
+        url: jdbc:phoenix:101.200.155.94:2181
+        driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
+        type: com.zaxxer.hikari.HikariDataSource
+        minimum-idle: 10
+        maximum-pool-size: 20
+        idle-timeout: 50000
+        pool-name: phoenix-hikari
+
 logging:
   level:
     com.sy: debug
@@ -30,9 +36,13 @@ logging:
     org.apache.phoenix: debug
     org.apache.hadoop: debug
 
-mybatis:
+mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   typeAliasesPackage: com.sy.ex.hbase.domain
-  configuration:
-    call-setters-on-nulls: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    # 不显示banner
+    banner: false
+    # 数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO

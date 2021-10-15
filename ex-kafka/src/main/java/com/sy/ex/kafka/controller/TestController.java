@@ -24,36 +24,36 @@ import java.util.concurrent.ExecutionException;
 public class TestController {
 
     private final KafkaProducer kafkaProducer;
-    private final AdminClient adminClient;
+    //private final AdminClient adminClient;
 
     @GetMapping("/test")
     public void test(String msg,String topic){
         kafkaProducer.send(msg,topic);
     }
 
-    /**
-     * 查看topic列表
-     */
-    @GetMapping("/test2")
-    public  void test2() throws ExecutionException, InterruptedException {
-        ListTopicsResult listTopicsResult = adminClient.listTopics();
-        // 获取所有topic的名字，返回的是一个Set集合
-        Set<String> topicNames = listTopicsResult.names().get();
-        System.out.println(topicNames);
-    }
+   ///**
+   // * 查看topic列表
+   // */
+   //@GetMapping("/test2")
+   //public  void test2() throws ExecutionException, InterruptedException {
+   //    ListTopicsResult listTopicsResult = adminClient.listTopics();
+   //    // 获取所有topic的名字，返回的是一个Set集合
+   //    Set<String> topicNames = listTopicsResult.names().get();
+   //    System.out.println(topicNames);
+   //}
 
 
-    /**
-     * 创建topic
-     */
-    @GetMapping("/test3")
-    public  void test3(){
-        ArrayList<NewTopic> topics = new ArrayList<>();
-        NewTopic nowTopic = new NewTopic("nowTopic", 2, (short) 1);
-        topics.add(nowTopic);
-        adminClient.createTopics(topics);
+   ///**
+   // * 创建topic
+   // */
+   //@GetMapping("/test3")
+   //public  void test3(){
+   //    ArrayList<NewTopic> topics = new ArrayList<>();
+   //    NewTopic nowTopic = new NewTopic("nowTopic", 2, (short) 1);
+   //    topics.add(nowTopic);
+   //    adminClient.createTopics(topics);
 
-    }
+   //}
 
 
 
