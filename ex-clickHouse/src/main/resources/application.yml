@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:clickhouse://123.56.97.130:8123/test_data
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: ru.yandex.clickhouse.ClickHouseDriver
+    # 如果不想配置对数据库连接池做特殊配置的话,以下关于连接池的配置就不是必须的
+    username: default
+    password: sy91aa
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  typeAliasesPackage: com.sy.ex.clickhouse.domain
+  global-config:
+    # 不显示banner
+    banner: false
+    # 数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+
+#logging:
+#  level:
+#    com.sy: debug
+#    org.springframework: info
+#    springboot.dao: debug

@@ -32,6 +32,7 @@
         <module>ex-aop</module>
         <module>ex-kafka</module>
         <module>ex-hbase</module>
+        <module>ex-clickHouse</module>
     </modules>
 
     <dependencies>
