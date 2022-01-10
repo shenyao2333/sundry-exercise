@@ -33,6 +33,7 @@
         <module>ex-kafka</module>
         <module>ex-hbase</module>
         <module>ex-clickHouse</module>
+        <module>ex-guava</module>
     </modules>
 
     <dependencies>
