@@ -4,6 +4,7 @@ import com.sy.ex.kafka.producer.KafkaProducer;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,17 +47,17 @@ public class TestController {
    }
 
 
-   ///**
-   // * 创建topic
-   // */
-   //@GetMapping("/test3")
-   //public  void test3(){
-   //    ArrayList<NewTopic> topics = new ArrayList<>();
-   //    NewTopic nowTopic = new NewTopic("nowTopic", 2, (short) 1);
-   //    topics.add(nowTopic);
-   //    adminClient.createTopics(topics);
+   /**
+    * 创建topic
+    */
+   @GetMapping("/test3")
+   public  void test3(){
+       ArrayList<NewTopic> topics = new ArrayList<>();
+       NewTopic nowTopic = new NewTopic("nowTopic", 2, (short) 1);
+       topics.add(nowTopic);
+       adminClient.createTopics(topics);
 
-   //}
+   }
 
 
 

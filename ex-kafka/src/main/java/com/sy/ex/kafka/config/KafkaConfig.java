@@ -42,7 +42,7 @@ public class KafkaConfig {
     public AdminClient kafkaAdmin() {
         log.info("进来这里--->");
         Map<String, Object> props = new HashMap<>();
-        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.97.130:9092");
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.222.140:9092");
         AdminClient adminClient = AdminClient.create( new KafkaAdmin(props).getConfig());
         return adminClient;
     }
