@@ -19,6 +19,7 @@ public class Test {
     public static void test1(){
         Pattern compile = Pattern.compile("\\bas");
         Matcher matcher = compile.matcher("asdfgashjjf as");
+
         while (matcher.find()){
 
             System.out.println("找到了->"+matcher.group());
