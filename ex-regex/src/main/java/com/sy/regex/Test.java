@@ -12,7 +12,7 @@ public class Test {
 
     public static void main(String[] args) {
 
-        test3();
+        test4();
 
     }
 
@@ -49,7 +49,11 @@ public class Test {
     }
 
     public static void test4(){
-
+        Pattern compile = Pattern.compile("\\w");
+        Matcher matcher = compile.matcher("你好dasf");
+        while (matcher.find()){
+            System.out.println(matcher.group());
+        }
     }
 
 
