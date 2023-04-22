@@ -1,0 +1,13 @@
+#启动SeimiCrawler
+seimi:
+  crawler:
+    enabled: true
+    names: basicsss
+
+
+server:
+  port: 9020
+
+logging:
+  level:
+    root: debug

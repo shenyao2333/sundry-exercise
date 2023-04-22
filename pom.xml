@@ -35,6 +35,8 @@
         <module>ex-clickHouse</module>
         <module>ex-guava</module>
         <module>ex-regex</module>
+        <module>ex-seimi</module>
+        <module>ex-webmagic</module>
     </modules>
 
     <dependencies>
